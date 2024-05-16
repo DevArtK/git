@@ -4,10 +4,6 @@
 # Shared config between work and personal
 [core]
 	excludesfile = ~/.global_gitingore
-
-[color]
-	# Enable colors in color-supporting terminals
-	ui = true
     # Ensure LF endings on commits
         # Other options :
             # false = don't perform any automatic line ending conversion, 
@@ -16,7 +12,11 @@
             # true = on checkout converts LF to CRLF, on commit converts CRLF to LF; repo will contain LF endings, typically used on windows
             
             # input = checkout leaves LF as is, does not convert CRLF, commit converts CRLF to LF 
-    autocrlf = input
+    autocrlf =  input
+
+[color]
+	# Enable colors in color-supporting terminals
+	ui = true
 
 
 # Large file filter
