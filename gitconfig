@@ -1,0 +1,88 @@
+[user]
+	name = devartk
+	email = devartk.dev@gmail.com
+# Shared config between work and personal
+[core]
+	excludesfile = ~/.global_gitingore
+
+[color]
+	# Enable colors in color-supporting terminals
+	ui = true
+    # Ensure LF endings on commits
+        # Other options :
+            # false = don't perform any automatic line ending conversion, 
+            # files checked out and commited with their original line endings whether they are LF or CRLF
+
+            # true = on checkout converts LF to CRLF, on commit converts CRLF to LF; repo will contain LF endings, typically used on windows
+            
+            # input = checkout leaves LF as is, does not convert CRLF, commit converts CRLF to LF 
+    autocrlf = input
+
+
+# Large file filter
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[init]
+	defaultBranch = master
+
+[pull]
+	# Use rebase instead of merge for cleaner history
+	rebase = true
+
+[rebase]
+	# Automatically squash commits during rebase and stash changes automatically
+	autosquash = true
+	autostash = true
+
+# Reuse recorded conflict resolution on merge conflicts
+    # To forget resolution run : `git rerere forget <pathspec>`
+    # <pathspec> being path to file(s) in which to forget resolution
+        # Has to be run within the merge context
+    # To clear ALL resolutions; delete ~/.git/rr-cache 
+[rerere]
+    # Turns the rerere featre on; track & store resolutions
+	enabled = true
+    # Auto update rerere state (stored resolutions) when performing merge with conflicts
+    # If encounter the same conflict in furture will automatically apply previous resolution
+    # Even on a different branch
+	autoupdate = true
+
+[diff]
+	algorithm = histogram
+	colorMoved = default
+
+[tag]
+  # Sort tags as version numbers whenever applicable, so 1.10.2 is AFTER 1.2.0.
+  sort = version:refname
+
+[alias]
+	# List aliases
+	als = !git config --get-regexp alias | sed -re 's/alias\\.(\\S*)\\s(.*)$/\\1 = \\2/g'
+	ci = commit
+	sw = switch
+	co = checkout
+	st = status
+	df = diff 
+	dfs = diff --staged
+
+	bb = "!f() { ~/better-branch.sh; }; f"
+	# bb = !better-branch.sh
+
+	# List local commits that were not pushed to remote repository
+	review-local = "!git lg @{push}.."
+
+	# Undo last commit but keep changed files in stage
+	uncommit = reset --soft HEAD~1
+
+	# Remove file(s) from Git but not from disk
+	untrack = "rm --cache --"
+
+	# Stash all changes
+	staash = stash --all
+
+
+
