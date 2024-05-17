@@ -1,7 +1,7 @@
 [user]
 	name = devartk
 	email = devartk.dev@gmail.com
-# Shared config between work and personal
+
 [core]
 	excludesfile = ~/.global_gitingore
     # Ensure LF endings on commits
@@ -18,14 +18,6 @@
 	# Enable colors in color-supporting terminals
 	ui = true
 
-
-# Large file filter
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-
 [init]
 	defaultBranch = master
 
@@ -34,8 +26,12 @@
 	rebase = true
 
 [rebase]
-	# Automatically squash commits during rebase and stash changes automatically
+    # Enable auto squash during interactive rebasing;
+        #  Commits marked with `fixup!` or `squash!` prefix
 	autosquash = true
+    # Enable stash during rebase; 
+        # Automatically stash changes in working directory before rebase, reapply after
+        # Good for preservering work but not having to commit it 
 	autostash = true
 
 # Reuse recorded conflict resolution on merge conflicts
@@ -51,8 +47,12 @@
     # Even on a different branch
 	autoupdate = true
 
+# Git diff output configuration 
 [diff]
+    # Use more performant algo on larger files and complex changes, better accuracy at detecting changes
+        # Such as when content was moved or reorganized within a file
 	algorithm = histogram
+    # Color moves
 	colorMoved = default
 
 [tag]
@@ -66,7 +66,14 @@
 	sw = switch
 	co = checkout
 	st = status
+
+    # Shows the changes between the working directory and the index (staging area). 
+        # This means it displays changes that have been made to files but have not yet been staged (using git add)
 	df = diff 
+
+    # Shows the differences between the index (staging area) and the last commit. 
+        # This means it displays changes that have been staged for the next commit but have not yet been committed. 
+        # It shows what will be included in the next commit if you run git commit.
 	dfs = diff --staged
 
 	bb = "!f() { ~/better-branch.sh; }; f"
@@ -78,11 +85,32 @@
 	# Undo last commit but keep changed files in stage
 	uncommit = reset --soft HEAD~1
 
-	# Remove file(s) from Git but not from disk
+    # Remove files from the staging area (index) without deleting them from the working directory
+        # Remove files that have been added using `git add`
 	untrack = "rm --cache --"
 
-	# Stash all changes
+	# Stash all changes including untracked files
 	staash = stash --all
 
+# Large File Storage
+# Used for replacing large files with text pointers, where the large files can then be stored on a remote server
+# Ensures proper integration with Git 
+[filter "lfs"]
+    # Specify Git LFS is required for handling large files in repo, if not installed pushes be prevented until installed
+	required = true
+    # Command used to clean large files before staging, replace large files with pointer reference
+	clean = git-lfs clean -- %f
+    # Command used to restore large files from pointers when checking out files from repo; 
+        # Large files will be replaced with their actual content
+	smudge = git-lfs smudge -- %f
+    # Command used to filter large files during Git LFS process; making sure it is invoked during cloning/pulling/pushing etc
+	process = git-lfs filter-process
 
+# Personal Git Config
+[includeIf "gitdir:~/workspace"] 
+	# Create a specific personal directory and an additional .gitconfig within
+	path = ~/workspace/.gitconfig
 
+[includeIf "gitdir:C:/Users/4414327/workspace"] 
+	# Create a specific workspace directory and an additional .gitconfig within
+	path = C:/Users/4414327/workspace/.gitconfig
