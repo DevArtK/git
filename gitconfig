@@ -106,11 +106,24 @@
     # Command used to filter large files during Git LFS process; making sure it is invoked during cloning/pulling/pushing etc
 	process = git-lfs filter-process
 
+
+[gpg]
+	# Configure Git to use SSH for signing commits and tags
+		# Also run : git config --global user.signingkey /PATH/TO/.SSH/KEY.PUB
+	format = ssh
+
+[user]
+	# /Should/ translate to %USERPROFILE%\.ssh in windows; Linux non-issue
+		# Result of git config --global user.signingkey
+	signingkey = ~/.ssh/id_ed25519.pub
+
+
 # Personal Git Config
 [includeIf "gitdir:~/workspace"] 
 	# Create a specific personal directory and an additional .gitconfig within
 	path = ~/workspace/.gitconfig
 
+# Work Git Config
 [includeIf "gitdir:C:/Users/4414327/workspace"] 
 	# Create a specific workspace directory and an additional .gitconfig within
 	path = C:/Users/4414327/workspace/.gitconfig
